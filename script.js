@@ -7,7 +7,7 @@ const h = window.innerHeight;
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(2970, w / h, 0.01, 1000000);
-camera.position.set(-768.1718345036538, 91.39688067739326, 1386.7950702288035);
+camera.position.set(-168.1718345036538, 91.39688067739326, 1700);
 // camera.position.set(-20, 30, 50);
 // Vector3 {x: -1268.1718345036538, y: 141.39688067739326, z: 1386.7950702288035}
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -62,10 +62,10 @@ const planeMaterial = new THREE.MeshStandardMaterial({
   side: THREE.DoubleSide,
 });
 const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-// scene.add(plane);
 plane.position.y = -5;
 plane.rotation.x = -0.5 * Math.PI;
 plane.receiveShadow = true;
+// scene.add(plane);
 
 function init(obj) {
   obj.traverse(function (child) {
@@ -75,10 +75,11 @@ function init(obj) {
       emmisive: "000000",
       specular: "111111",
       wireframe: false,
-      // side: THREE.DoubleSide,
+      side: THREE.DoubleSide,
     });  
     
     const mesh = new THREE.Mesh(child.geometry, material);
+    mesh.position.y = -200;
     mesh.rotation.x = -0.5 * Math.PI;
     // mesh.receiveShadow = true;
     // mesh.castShadow = true;
@@ -94,61 +95,60 @@ function init(obj) {
     animate();
   });
 }
-function singleLoad (geometry) { 
-  const material = new THREE.MeshNormalMaterial({
-    // wireframe: true,
+function singleLoad (geometry, color) { 
+  // const material = new THREE.MeshStandardMaterial({
+  //   // wireframe: true,
+  //   color: (`${color}`),
+  //   side: THREE.DoubleSide,
+  //   // matcap: new THREE.TextureLoader().load('./assets/textures/matcaps/black-n-shiney.jpg')
+  // });
+
+  const material = new THREE.MeshLambertMaterial({
+    color: (color),
     side: THREE.DoubleSide,
-    // matcap: new THREE.TextureLoader().load('./assets/textures/matcaps/black-n-shiney.jpg')
-  });
+})
   const mesh = new THREE.Mesh(geometry, material);
   mesh.position.y = -200;
   mesh.rotation.x = -0.5 * Math.PI;
-  mesh.receiveShadow = true;
-  mesh.castShadow = true;
   scene.add(mesh);
-
-  const sunlight = new THREE.DirectionalLight(0xffffff);
-  sunlight.position.y = 2;
-  // scene.add(sunlight);
-
-  const filllight = new THREE.DirectionalLight(0x88ccff);
-  filllight.position.x = 1;
-  filllight.position.y = -2;
-  // scene.add(filllight);
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
 
   function animate() {
       // console.log(camera.position)
-      mesh.rotation.z += .001 ;
-      renderer.setClearColor( 0xffffff, 0);
+    mesh.rotation.z += .001 ;
+    // renderer.setClearColor( 0xffffff, 0);
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
   }
   animate();
 }
+
 function exterior (geometry) { 
-  const material = new THREE.MeshNormalMaterial({
-    wireframe: true,
+  const material = new THREE.MeshMatcapMaterial({
     side: THREE.DoubleSide,
-    // matcap: new THREE.TextureLoader().load('./assets/textures/matcaps/black-n-shiney.jpg')
+    color: ("ffffff"),
+    opacity: 1,
+    normalScale: .5,
+    matcap: new THREE.TextureLoader().load('./assets/matcap-textures/matcap-crystal.png')
   });
+  // const material = new THREE.MeshPhysicalMaterial({
+  //   color: "95c4df",
+  //   reflectivity: .5,
+  //   emmisive: "000000",
+  //   wireframe: false,
+  //   side: THREE.DoubleSide,
+  // });  
   const mesh = new THREE.Mesh(geometry, material);
+  // mesh.flatShading = true,
   mesh.rotation.x = -0.5 * Math.PI;
   mesh.position.y = -200;
   scene.add(mesh);
 
-  const sunlight = new THREE.DirectionalLight(0xffffff);
-  sunlight.position.y = 2;
-  // scene.add(sunlight);
-
-  const filllight = new THREE.DirectionalLight(0x88ccff);
-  filllight.position.x = 1;
-  filllight.position.y = -2;
-  // scene.add(filllight);
 
   function animate() {
       // console.log(camera.position)
-      mesh.rotation.z += .001 ;
-      renderer.setClearColor( 0xffffff, 0);
+    mesh.rotation.z += .001 ;
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
   }
@@ -161,22 +161,19 @@ const loader = new OBJLoader();
 // loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[0].geometry));
 // loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[1].geometry));
 //Columns
-loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[0].geometry));
-loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[1].geometry));
-loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[2].geometry));
-loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[3].geometry));
-loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[4].geometry));
-loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[5].geometry));
-loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[6].geometry));
-loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[7].geometry));
-loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[8].geometry));
+loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[0].geometry, "#dedede"));
+loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[1].geometry, "#595c5a"));
+loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[2].geometry, "#ffdbfe"));
+loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[3].geometry, "#ffdbfe"));
+loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[4].geometry, "#ffdbfe"));
+loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[5].geometry,"#ffdbfe"));
+loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[6].geometry,"white"));
+loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[7].geometry,"lightblue"));
+loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[8].geometry,"lightblue"));
 loader.load("./assets/Cube.obj", (obj) => exterior(obj.children[9].geometry));
 loader.load("./assets/Cube.obj", (obj) => exterior(obj.children[10].geometry));
-loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[11].geometry));
-loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[12].geometry));
-// loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[13].geometry));
-
-// loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[10].geometry));
+loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[11].geometry,"white"));
+loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[12].geometry,"blue"));
 
 function handleWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
