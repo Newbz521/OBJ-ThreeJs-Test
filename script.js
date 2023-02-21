@@ -115,6 +115,8 @@ closer.addEventListener("click", function () {
   right = 0
   forward = 0;
   backward = 0
+  height.value = 0
+  slider.value = 0
 })
 
 let forward = 0;
