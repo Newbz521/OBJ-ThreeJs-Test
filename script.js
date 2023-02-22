@@ -20,41 +20,43 @@ controls.update();
 
 const sunlight = new THREE.DirectionalLight(0x333333);
 sunlight.position.y = 20000;
-sunlight.intensity = 10;
+sunlight.intensity = 6.5;
 sunlight.castShadow = true;
 scene.add(sunlight);
 
 const ambientLight = new THREE.AmbientLight(0x333333);
+ambientLight.intensity = 2.5;
 scene.add(ambientLight); 
 
 const filllight = new THREE.DirectionalLight(0xffffff);
 filllight.position.x = 1;
 filllight.position.y = 0;
-// scene.add(filllight);
+scene.add(filllight);
 
 const spotLight = new THREE.SpotLight("white");
-spotLight.position.set(-300, 1000, 1200);
+spotLight.position.set(-700, -180, 700);
 spotLight.castShadow = true;
-spotLight.angle = .9;
-spotLight.penumbra = 0;
-spotLight.intensity = 1;
+spotLight.angle = .2;
+spotLight.penumbra = 1;
+spotLight.intensity = .9;
 // scene.add(spotLight);
 
 const spotLightHelper = new THREE.SpotLightHelper(spotLight);
 // scene.add(spotLightHelper);
 
 
-const planeGeometry = new THREE.PlaneGeometry(10, 10);
+const planeGeometry = new THREE.PlaneGeometry(5000, 5000);
 const planeMaterial = new THREE.MeshStandardMaterial({
   color: 0x0000ff,
   wireframe: false,
   side: THREE.DoubleSide,
 });
 const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-plane.position.y = -5;
+plane.position.y = -220;
 plane.rotation.x = -0.5 * Math.PI;
 plane.receiveShadow = true;
 // scene.add(plane);
+
 
 function init(obj) {
   obj.traverse(function (child) {
@@ -133,15 +135,30 @@ function singleLoad(geometry, color, instance) {
   const mesh = new THREE.Mesh(geometry, material);
   mesh.position.y = -200;
   mesh.rotation.x = -0.5 * Math.PI;
-
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
   scene.add(mesh);
   function animate() {
-    // if (mesh.position.y < up) {
-    //   mesh.position.y += 5
-    // }
-    // if (mesh.position.y > up){
-    //   mesh.position.y -= 5
-    // }
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+  }
+  animate();
+}
+function atriumLoad(geometry, color, instance) { 
+
+  const material = new THREE.MeshLambertMaterial({
+    color: (color),
+    side: THREE.DoubleSide,
+    transparent: true,
+    opacity: .55,
+  })
+  const mesh = new THREE.Mesh(geometry, material);
+  mesh.position.y = -200;
+  mesh.rotation.x = -0.5 * Math.PI;
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
+  scene.add(mesh);
+  function animate() {
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
   }
@@ -156,7 +173,8 @@ function floor1Load(geometry, color, instance) {
   const mesh = new THREE.Mesh(geometry, material);
   mesh.position.y = -200;
   mesh.rotation.x = -0.5 * Math.PI;
-
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
   scene.add(mesh);
   function animate() {
     if (mesh.position.z < forward) {
@@ -181,7 +199,8 @@ function floor3Load(geometry, color, instance) {
   const mesh = new THREE.Mesh(geometry, material);
   mesh.position.y = -200;
   mesh.rotation.x = -0.5 * Math.PI;
-
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
   scene.add(mesh);
   function animate() {
     if (mesh.position.z < forward) {
@@ -206,7 +225,8 @@ function floor2Load(geometry, color, instance) {
   const mesh = new THREE.Mesh(geometry, material);
   mesh.position.y = -200;
   mesh.rotation.x = -0.5 * Math.PI;
-  
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
   scene.add(mesh);
  
   function animate() {
@@ -232,7 +252,8 @@ function floor4Load(geometry, color, instance) {
   const mesh = new THREE.Mesh(geometry, material);
   mesh.position.y = -200;
   mesh.rotation.x = -0.5 * Math.PI;
-  
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
   scene.add(mesh);
  
   function animate() {
@@ -260,7 +281,8 @@ function leftLoad(geometry, color) {
   const mesh = new THREE.Mesh(geometry, material);
   mesh.position.y = -200;
   mesh.rotation.x = -0.5 * Math.PI;
-
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
   scene.add(mesh);
   function animate() {
     if (mesh.position.x > left) {
@@ -284,7 +306,8 @@ function rightLoad(geometry, color) {
   mesh.flatShading = true,
   mesh.position.y = -200;
   mesh.rotation.x = -0.5 * Math.PI;
-
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
   scene.add(mesh);
   function animate() {
 
@@ -301,10 +324,12 @@ function rightLoad(geometry, color) {
 }
 const sphereGeometry = new THREE.SphereGeometry(1000,50,50);
 const sphereMaterial = new THREE.MeshStandardMaterial({
-  color: "black",
-  wireframe: false,
+  color: "grey",
+  wireframe: true,
 });
 const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+sphere.castShadow = true;
+sphere.receiveShadow = true;
 // scene.add(sphere);
 
 function exterior (geometry) { 
@@ -340,6 +365,10 @@ function exterior (geometry) {
 let baseGeometry;
 const loader = new OBJLoader();
 loader.load("./assets/Cube.obj", (obj) => init(obj))
+loader.load("./assets/environment.obj", (obj) => singleLoad(obj.children[0].geometry, "rgb(2, 48, 32)"))
+loader.load("./assets/environment.obj", (obj) => singleLoad(obj.children[2].geometry, "grey"))
+loader.load("./assets/environment.obj", (obj) => singleLoad(obj.children[1].geometry,"silver"))
+// loader.load("./assets/environment.obj", (obj) => singleLoad(obj.children[3].geometry,"black"))
 
 
 //right Exterior
@@ -353,7 +382,7 @@ loader.load("./assets/Cube.obj", (obj) => exterior(obj.children[10].geometry, "w
 loader.load("./assets/Cube.obj", (obj) => exterior(obj.children[11].geometry, "white", "leftGlass"));
 
 //Center Glass
-loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[1].geometry, "white", "atriumGlass"));
+loader.load("./assets/Cube.obj", (obj) => atriumLoad(obj.children[1].geometry, "white", "atriumGlass"));
 
 //Individual Floors
 loader.load("./assets/Cube.obj", (obj) => floor1Load(obj.children[2].geometry, "#ffdbfe","floor1"));
@@ -364,7 +393,7 @@ loader.load("./assets/Cube.obj", (obj) => floor4Load(obj.children[4].geometry, "
 //Columns
 loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[9].geometry, 'grey', "structural"));
 
-loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[12].geometry, "green", "base"));
+loader.load("./assets/Cube.obj", (obj) => singleLoad(obj.children[12].geometry, "grey", "base"));
 
 function handleWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;

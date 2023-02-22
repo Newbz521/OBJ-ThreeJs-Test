@@ -26,6 +26,7 @@
         height: 150px;
         position: absolute;
         display: flex;
+        border-radius: 10px;
         left: calc(50% - 75px );
         text-align: center;
         justify-content: center;
@@ -37,23 +38,33 @@
         font-size: 20px;
         border: 5px solid white;
         width: 50%;
-        
+        border-radius: 10px;
+        transition:all .2s;
+      }
+      #explode:hover, #return:hover{
+        cursor: pointer;
+        border: 5px solid pink;
+        /* transition:all .2s; */
       }
    
       .controls{
+
         color: white;
         z-index: 5;
         font-size: 20px;
-        width: 150px;
+        width: 180px;
+        height: 180px;
         position: absolute;
         display: flex;
-        left: calc(50% - 75px );
+        gap: 5px;
+        left: calc(50% - 90px );
         text-align: center;
         justify-content: center;
         align-items: center;
         border: 5px solid white;
         bottom: calc(100vh / 25);
         flex-direction: column;
+        border-radius: 10px;
       }
    
     
