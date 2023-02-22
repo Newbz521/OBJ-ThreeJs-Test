@@ -90,19 +90,21 @@ function init(obj) {
   });
 }
 const slider = document.getElementById("exterior")
-slider.onchange = function (e) {
+  slider.addEventListener ( "input",function (e) {
   console.log(e.target.value)
   left = -(e.target.value);
   right = e.target.value;
 }
+)
 const height = document.getElementById("floor")
-height.onchange = function (e) {
+height.addEventListener('input', function (e) {
   console.log(e.target.value)
   forward = e.target.value
   backward = -(e.target.value)
   // left = -(e.target.value)
   // right = e.target.value
 }
+)
 const explode = document.getElementById("explode")
 explode.addEventListener("click", function () {
   left = - 1250;
@@ -349,7 +351,7 @@ function exterior (geometry) {
 
  
   function animate() {
-      console.log(camera.position)
+      // console.log(camera.position)
     // mesh.rotation.z += .001 ;
     if (mesh.position.x > left) {
       mesh.position.x -= 20
