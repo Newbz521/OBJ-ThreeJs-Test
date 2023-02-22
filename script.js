@@ -5,8 +5,9 @@ import { OBJLoader } from "https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm
 const w = window.innerWidth;
 const h = window.innerHeight;
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(12000, w / h, 0.01, 1000000);
-camera.position.set(-841.1214360407214, 954.750567416804, 1457.2791386517558);
+const camera = new THREE.PerspectiveCamera(48000, w / h, 0.01, 1000000);
+camera.position.set(-969.6691466145124, -19.914113615902707, 1345.57457983855);
+// Vector3 {x: -969.6691466145124, y: -19.914113615902707, z: 1345.57457983855}
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.shadowMap.enabled = true;
 renderer.setPixelRatio( window.devicePixelRatio );
@@ -348,7 +349,7 @@ function exterior (geometry) {
 
  
   function animate() {
-      // console.log(camera.position)
+      console.log(camera.position)
     // mesh.rotation.z += .001 ;
     if (mesh.position.x > left) {
       mesh.position.x -= 20
@@ -403,7 +404,6 @@ function handleWindowResize() {
 window.addEventListener("resize", handleWindowResize, false);
 
 function animate() {
-  // console.log(camera.position)
   mesh.rotation.z += .001 ;
 
   renderer.render(scene, camera);
